@@ -1,0 +1,73 @@
+.navbar-brand img{
+    max-height: 32px;
+}
+
+.bg-light {
+    background-color: #ebebeb!important;
+    color: rgb(0, 119, 0);
+    font-family: 'Manrope', sans-serif;
+}
+
+
+header .row{
+    min-height: 80vh;
+    background-image: url(../img/mlac.jpeg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    color:rgb(219, 219, 219);
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 91%);
+
+}
+
+header .formBlack{
+    background-color: rgba(0,0,0,0.5);
+    min-height: 80vh;
+
+    font-family: 'Manrope', sans-serif;
+
+}
+
+#compt .media span{
+    font-size:3rem;
+}
+
+#conta {
+    background-image: url(../img/futur2.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    min-height: 30vh;
+
+}
+
+
+#conta .row{
+    min-height: 75vh;
+    
+}
+
+
+footer{
+    background-color: rgb(206, 206, 206);
+    color:rgb(99, 99, 99);
+    padding-top: 2rem;
+    padding-bottom: 1rem;
+}
+
+body{
+    background-color: rgb(231, 231, 231);
+}
+
+
+.navbar-nav > li{
+  
+  padding-right:5px;
+}
+
+
+
+.navbar-nav > li{
+ 
+  margin-right:80px;
+}

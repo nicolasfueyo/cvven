@@ -30,12 +30,12 @@ class Database extends \CodeIgniter\Database\Config
 	 * @var array
 	 */
 	public $default = [
-		'DSN'      => 'pgsql:host=rene-descartes.hd.free.fr;port=5432;dbname=CVVEN NICO',
+		'DSN'      => '',
 		'hostname' => 'localhost',
-		'username' => 'fueyorodriguez',
-		'password' => 'slam2020',
+		'username' => '',
+		'password' => '',
 		'database' => '',
-		'DBDriver' => 'pdo',
+		'DBDriver' => 'MySQLi',
 		'DBPrefix' => '',
 		'pConnect' => false,
 		'DBDebug'  => (ENVIRONMENT !== 'production'),
