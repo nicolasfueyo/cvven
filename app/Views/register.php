@@ -66,20 +66,32 @@
                 <?php endif;?>
                 <form action="<?php echo site_url('register/save') ?>" method="post">
                     <div class="mb-3">
-                        <label for="InputForName" class="form-label">Nom</label>
-                        <input type="text" name="name" class="form-control" id="InputForName" value="<?= set_value('name') ?>">
+                        <label for="InputForName" class="form-label">Prénom</label>
+                        <input type="text" name="prenom" class="form-control" value="<?= set_value('prenom') ?>">
                     </div>
                     <div class="mb-3">
-                        <label for="InputForEmail" class="form-label">Adresse Email</label>
-                        <input type="email" name="email" class="form-control" id="InputForEmail" value="<?= set_value('email') ?>">
+                        <label for="InputForName" class="form-label">Nom</label>
+                        <input type="text" name="nom" class="form-control" value="<?= set_value('nom') ?>">
+                    </div>
+                    <div class="mb-3">
+                        <label for="InputForEmail" class="form-label">Email</label>
+                        <input type="email" name="email" class="form-control" value="<?= set_value('email') ?>">
+                    </div>
+                    <div class="mb-3">
+                        <label for="InputForEmail" class="form-label">Téléphone</label>
+                        <input type="tel" name="tel" class="form-control" value="<?= set_value('tel') ?>">
+                    </div>
+                    <div class="mb-3">
+                        <label for="InputForEmail" class="form-label">Adresse</label>
+                        <input type="text" name="adresse" class="form-control" value="<?= set_value('adresse') ?>">
                     </div>
                     <div class="mb-3">
                         <label for="InputForPassword" class="form-label">Mot de passe</label>
-                        <input type="password" name="password" class="form-control" id="InputForPassword">
+                        <input type="password" name="mdp" class="form-control" id="InputForPassword">
                     </div>
                     <div class="mb-3">
                         <label for="InputForConfPassword" class="form-label">Confirmer le mot de passe</label>
-                        <input type="password" name="confpassword" class="form-control" id="InputForConfPassword">
+                        <input type="password" name="confMdp" class="form-control" id="InputForConfPassword">
                     </div>
                     <button type="submit" class="btn btn-primary">S'enregistrer</button>
                 </form>
