@@ -2,7 +2,7 @@
 
 use CodeIgniter\Model;
 
-class UserModel extends Model{
+class UtilisateurModel extends Model{
     protected $table = 'utilisateur';
     protected $allowedFields = ['id','nom','email','mdp','prenom','tel','role','adresse'];
 }

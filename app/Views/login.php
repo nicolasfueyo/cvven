@@ -70,7 +70,7 @@
                 <?php if(session()->getFlashdata('msg')):?>
                     <div class="alert alert-danger"><?= session()->getFlashdata('msg') ?></div>
                 <?php endif;?>
-                <form action="/codeigniter1/public/login/auth" method="post">
+                <form action="<?php echo site_url("login/auth") ?>" method="post">
                     <div class="mb-3">
                         <label for="InputForEmail" class="form-label">Adresse Email</label>
                         <input type="email" name="email" class="form-control" id="InputForEmail" value="<?= set_value('email') ?>">
