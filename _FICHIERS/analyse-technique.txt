@@ -1,0 +1,42 @@
+Modeleds:
+
+- CalendrierVacances: id, date
+- Utilisateur: id, nom, prenom, email, adresse, role, mdp, tel
+- TypeLogement:     id, nom, nbPersonnes, decsription, nbLogements, prixParNuitee
+- Reservation:  id, util_id, prixTotal, dateEntree, dateSortie, etat, typeSejour
+( pension complète, demi-pension ) , menageFinSejourInclus ( boolean)
+- Reservation_Logement: id, id_typelogement, id_reservation, quantite
+
+Vérifier si un logement est dispo entre 2 dates:
+
+Uniquement durant vacances scolaires
+
+Calcul sur dates : on s'en sert pour afficher le formulaire de réservation
+
+1. Allers ds TypeLogement récup nbLogements total
+2. Select toutes les ReservationLogement du type voulu, liés à une réservation
+dont la dateEntree >= ma date entree
+ET
+dateSortie <= ma date sortie
+
+Liste écrans:
+
+---------- OPTIONNEL
+Zone admin:
+
+Toutes réservations + filtre par utilisateur + par état ( non-validée ou validée )
+
+Valider une réservation en attente
+
+----------
+Zone util:
+
+Nouvelle réservation
+
+Mes réservations ( page princiupal une fois connecté )
+
+Changer mon mdp
+
+Déconnexion
+
+Annuler réservation non validée par admin
