@@ -92,7 +92,7 @@
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Type de logement</label>
-                        <select class="form-control"></select>
+                        <?php echo form_dropdown('logement', $typesLogements, null, ['class'=>'form-control']) ?>
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Nombre de logements</label>
