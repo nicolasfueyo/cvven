@@ -29,7 +29,7 @@ class Register extends Controller {
                 'tel' => $this->request->getVar('tel'),
                 'adresse' => $this->request->getVar('adresse'),
                 'email' => $this->request->getVar('email'),
-                'role'=>'CLIENT',
+                'role'=>UtilisateurModel::ROLE_CLIENT,
                 'mdp' => password_hash($this->request->getVar('mdp'), PASSWORD_DEFAULT)
             ];
 
