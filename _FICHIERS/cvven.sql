@@ -1,169 +1,230 @@
--- MariaDB dump 10.18  Distrib 10.4.17-MariaDB, for Win64 (AMD64)
+-- phpMyAdmin SQL Dump
+-- version 5.0.4
+-- https://www.phpmyadmin.net/
 --
--- Host: localhost    Database: cvven
--- ------------------------------------------------------
--- Server version	10.4.17-MariaDB
+-- Hôte : 127.0.0.1
+-- Généré le : mer. 03 fév. 2021 à 21:02
+-- Version du serveur :  10.4.17-MariaDB
+-- Version de PHP : 8.0.0
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8mb4 */;
-/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
-/*!40103 SET TIME_ZONE='+00:00' */;
-/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `calendriervacances`
+-- Base de données : `cvven`
 --
 
-DROP TABLE IF EXISTS `calendriervacances`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `calendriervacances`
+--
+
 CREATE TABLE `calendriervacances` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `date_jour` date NOT NULL,
-  PRIMARY KEY (`id`)
+  `id` int(11) NOT NULL,
+  `date_jour` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `calendriervacances`
+-- Déchargement des données de la table `calendriervacances`
 --
 
-LOCK TABLES `calendriervacances` WRITE;
-/*!40000 ALTER TABLE `calendriervacances` DISABLE KEYS */;
-/*!40000 ALTER TABLE `calendriervacances` ENABLE KEYS */;
-UNLOCK TABLES;
+INSERT INTO `calendriervacances` (`id`, `date_jour`) VALUES
+(1, '2021-02-06'),
+(2, '2021-02-07'),
+(3, '2021-02-08'),
+(4, '2021-02-09'),
+(5, '2021-02-10'),
+(6, '2021-02-11'),
+(7, '2021-02-12'),
+(8, '2021-02-13'),
+(9, '2021-02-14'),
+(10, '2021-02-15'),
+(11, '2021-02-16'),
+(12, '2021-02-17'),
+(13, '2021-02-18'),
+(14, '2021-02-19'),
+(15, '2021-02-20'),
+(16, '2021-02-21');
+
+-- --------------------------------------------------------
 
 --
--- Table structure for table `reservation`
+-- Structure de la table `reservation`
 --
 
-DROP TABLE IF EXISTS `reservation`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `reservation` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL,
   `utilisateur_id` int(11) NOT NULL,
   `prix_total` float NOT NULL,
   `date_entree` date NOT NULL,
   `date_sortie` date NOT NULL,
   `etat` varchar(20) NOT NULL,
   `type_sejour` varchar(20) NOT NULL,
-  `menage_fin_sejour_inclus` tinyint(1) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `utilisateur_id` (`utilisateur_id`),
-  CONSTRAINT `reservation_ibfk_1` FOREIGN KEY (`utilisateur_id`) REFERENCES `utilisateur` (`id`)
+  `menage_fin_sejour_inclus` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-/*!40101 SET character_set_client = @saved_cs_client */;
+
+-- --------------------------------------------------------
 
 --
--- Dumping data for table `reservation`
+-- Structure de la table `reservation_logement`
 --
 
-LOCK TABLES `reservation` WRITE;
-/*!40000 ALTER TABLE `reservation` DISABLE KEYS */;
-/*!40000 ALTER TABLE `reservation` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `reservation_logement`
---
-
-DROP TABLE IF EXISTS `reservation_logement`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `reservation_logement` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL,
   `id_typelogement` int(11) NOT NULL,
   `id_reservation` int(11) NOT NULL,
-  `quantite` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_typelogement` (`id_typelogement`),
-  KEY `id_reservation` (`id_reservation`),
-  CONSTRAINT `reservation_logement_ibfk_1` FOREIGN KEY (`id_typelogement`) REFERENCES `typelogement` (`id`),
-  CONSTRAINT `reservation_logement_ibfk_2` FOREIGN KEY (`id_reservation`) REFERENCES `reservation` (`id`)
+  `quantite` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-/*!40101 SET character_set_client = @saved_cs_client */;
+
+-- --------------------------------------------------------
 
 --
--- Dumping data for table `reservation_logement`
+-- Structure de la table `typelogement`
 --
 
-LOCK TABLES `reservation_logement` WRITE;
-/*!40000 ALTER TABLE `reservation_logement` DISABLE KEYS */;
-/*!40000 ALTER TABLE `reservation_logement` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `typelogement`
---
-
-DROP TABLE IF EXISTS `typelogement`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `typelogement` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL,
   `nom` varchar(32) NOT NULL,
-  `nbpersonnes` int(11) NOT NULL,
+  `nb_personnes` int(11) NOT NULL,
   `description` text DEFAULT NULL,
-  `nbLogements` int(11) NOT NULL,
-  `prixParNuitee` float NOT NULL,
-  PRIMARY KEY (`id`)
+  `nb_logements` int(11) NOT NULL,
+  `prix_par_nuitee` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `typelogement`
+-- Déchargement des données de la table `typelogement`
 --
 
-LOCK TABLES `typelogement` WRITE;
-/*!40000 ALTER TABLE `typelogement` DISABLE KEYS */;
-/*!40000 ALTER TABLE `typelogement` ENABLE KEYS */;
-UNLOCK TABLES;
+INSERT INTO `typelogement` (`id`, `nom`, `nb_personnes`, `description`, `nb_logements`, `prix_par_nuitee`) VALUES
+(1, 'Logement', 4, 'Entrée, douche et wc, 2 chambres à 2 lits avec coin toilette et balcon', 40, 150),
+(2, 'Chambre double', 2, 'Entrée, douche et wc, 1 lit double', 15, 100),
+(3, 'Chambre de 3 lits simples', 3, '3 lits séparés par une cloison mobile avec coin toilette, wc, douche.', 8, 90),
+(4, 'Chambre de 4 lits simples', 4, 'Lits séparés par une cloison mobile avec douche, wc et balcon.', 12, 95),
+(5, 'Logement à mobilité réduite', 1, 'Logement adapté pour les personnes à mobilité réduite', 1, 120);
+
+-- --------------------------------------------------------
 
 --
--- Table structure for table `utilisateur`
+-- Structure de la table `utilisateur`
 --
 
-DROP TABLE IF EXISTS `utilisateur`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `utilisateur` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL,
   `nom` varchar(32) DEFAULT NULL,
   `email` varchar(256) DEFAULT NULL,
   `mdp` varchar(256) DEFAULT NULL,
   `prenom` varchar(32) DEFAULT NULL,
   `tel` varchar(20) DEFAULT NULL,
   `role` varchar(10) DEFAULT NULL,
-  `adresse` varchar(256) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `user_email_uindex` (`email`),
-  UNIQUE KEY `user_tel_uindex` (`tel`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
-/*!40101 SET character_set_client = @saved_cs_client */;
+  `adresse` varchar(256) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `utilisateur`
+-- Déchargement des données de la table `utilisateur`
 --
 
-LOCK TABLES `utilisateur` WRITE;
-/*!40000 ALTER TABLE `utilisateur` DISABLE KEYS */;
-INSERT INTO `utilisateur` VALUES (2,'FUEYO RODRIGUEZ','lala@gmail.com','$2y$10$pt0o.20oLOkWZNIl7WIVkeKLkXI.xa2DK5ySnM59bYaSUogwE9Jzu','Nicolas','12122121','CLIENT','9');
-/*!40000 ALTER TABLE `utilisateur` ENABLE KEYS */;
-UNLOCK TABLES;
-/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+INSERT INTO `utilisateur` (`id`, `nom`, `email`, `mdp`, `prenom`, `tel`, `role`, `adresse`) VALUES
+(2, 'FUEYO RODRIGUEZ', 'lala@gmail.com', '$2y$10$pt0o.20oLOkWZNIl7WIVkeKLkXI.xa2DK5ySnM59bYaSUogwE9Jzu', 'Nicolas', '12122121', 'CLIENT', '9');
 
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+--
+-- Index pour les tables déchargées
+--
+
+--
+-- Index pour la table `calendriervacances`
+--
+ALTER TABLE `calendriervacances`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Index pour la table `reservation`
+--
+ALTER TABLE `reservation`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `utilisateur_id` (`utilisateur_id`);
+
+--
+-- Index pour la table `reservation_logement`
+--
+ALTER TABLE `reservation_logement`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_typelogement` (`id_typelogement`),
+  ADD KEY `id_reservation` (`id_reservation`);
+
+--
+-- Index pour la table `typelogement`
+--
+ALTER TABLE `typelogement`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Index pour la table `utilisateur`
+--
+ALTER TABLE `utilisateur`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `user_email_uindex` (`email`),
+  ADD UNIQUE KEY `user_tel_uindex` (`tel`);
+
+--
+-- AUTO_INCREMENT pour les tables déchargées
+--
+
+--
+-- AUTO_INCREMENT pour la table `calendriervacances`
+--
+ALTER TABLE `calendriervacances`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+
+--
+-- AUTO_INCREMENT pour la table `reservation`
+--
+ALTER TABLE `reservation`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `reservation_logement`
+--
+ALTER TABLE `reservation_logement`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `typelogement`
+--
+ALTER TABLE `typelogement`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT pour la table `utilisateur`
+--
+ALTER TABLE `utilisateur`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- Contraintes pour les tables déchargées
+--
+
+--
+-- Contraintes pour la table `reservation`
+--
+ALTER TABLE `reservation`
+  ADD CONSTRAINT `reservation_ibfk_1` FOREIGN KEY (`utilisateur_id`) REFERENCES `utilisateur` (`id`);
+
+--
+-- Contraintes pour la table `reservation_logement`
+--
+ALTER TABLE `reservation_logement`
+  ADD CONSTRAINT `reservation_logement_ibfk_1` FOREIGN KEY (`id_typelogement`) REFERENCES `typelogement` (`id`),
+  ADD CONSTRAINT `reservation_logement_ibfk_2` FOREIGN KEY (`id_reservation`) REFERENCES `reservation` (`id`);
+COMMIT;
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
-
--- Dump completed on 2021-01-31 21:55:45
