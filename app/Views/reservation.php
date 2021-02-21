@@ -81,14 +81,14 @@
             <div class="col-12 col-md-6">
 
                 Formulaire ICI
-                <form>
+                <?php echo form_open('reservation/post') ?>
                     <div class="mb-3">
                         <label class="form-label">Date d'entrée</label>
-                        <input type="date" name="" class="form-control">
+                        <input type="date" name="dateEntree" class="form-control">
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Date de sortie</label>
-                        <input type="date" name="" class="form-control">
+                        <input type="date" name="dateSortie" class="form-control">
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Type de logement</label>
@@ -96,18 +96,18 @@
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Nombre de logements</label>
-                        <input type="number" min="1" max="10" name="" class="form-control">
+                        <input type="number" min="1" max="10" name="nbLogements" class="form-control">
                     </div>
                     <div class="mb-3">
                         <label class="form-label"></label>
-                        <select class="form-control">
+                        <select class="form-control" name="typePension">
                             <option>DEMI-PENSION</option>
                             <option>PENSION COMPLETE</option>
                         </select>
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Ménage inclus en fin de séjour</label>
-                        <input type="checkbox" name="" class="form-control">
+                        <input type="checkbox" name="menageInclus" class="form-control">
                     </div>
                     <div class="mb-3">
                         <input type="submit" value="Réserver" class="form-control">
