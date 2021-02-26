@@ -13,7 +13,7 @@ class Reservation extends Controller {
      */
     private function estSamedi($strDate)
     {
-        $dt = DateTime::createFromFormat('d/m/Y',$strDate );
+        $dt = \DateTime::createFromFormat('Y-m-d',$strDate );
         $numJour = $dt->format('w');
         return $numJour==6;
     }
@@ -25,8 +25,8 @@ class Reservation extends Controller {
      * @return bool
      */
     private function dateAnterieure($strDateA, $strDateB){
-        $dateA = DateTime::createFromFormat('d/m/Y',$strDateA );
-        $dateB = DateTime::createFromFormat('d/m/Y',$strDateB );
+        $dateA = \DateTime::createFromFormat('Y-m-d',$strDateA );
+        $dateB = \DateTime::createFromFormat('Y-m-d',$strDateB );
 
         return $dateA->getTimestamp() < $dateB->getTimestamp();
     }
@@ -62,7 +62,12 @@ class Reservation extends Controller {
                 die('Date sortie est doit etre supérieur a date entrée');
             }
 
-            // Vérifie que les dates entrée recouvre des periodes de vacances
+            // Valide que les dates demandées correspondent à une période de vacances
+            $model = new CalendrierVacancesModel();
+            if( !$model->verifieDateVacancesValides($dateEntree, $dateSortie) ){
+                die('Les dates doivent correspondre à une période de vacances');
+            }
+
             // NOTE :
             // SELECT * FROM calendirer WHERE date_debut_vac BETWEEN $dateEntree AND $dateSortie
             //                                  AND date_fin_vac BETWEEN $dateEntree AND $dateSortie
