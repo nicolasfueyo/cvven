@@ -64,8 +64,11 @@ class Reservation extends Controller {
 
             // Vérifie que les dates entrée recouvre des periodes de vacances
             // NOTE :
-            // SELECT * FROM calendirer WHERE date_debut_val BETWEEN $dateEntree AND $dateSortie
+            // SELECT * FROM calendirer WHERE date_debut_vac BETWEEN $dateEntree AND $dateSortie
             //                                  AND date_fin_vac BETWEEN $dateEntree AND $dateSortie
+
+            // ou WHERE dateEntree BETWEEN date_debut_vac  AND date_fin_vac
+            //                                             AND dateSortie BETWEEN date_debut_vac AND date_fin_vac
             $cal = new CalendrierVacancesModel();
             //$cal->
             // Vérification des disponibilité pour ces dates
