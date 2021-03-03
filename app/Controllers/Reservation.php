@@ -1,6 +1,7 @@
 <?php namespace App\Controllers;
 
 use App\Models\CalendrierVacancesModel;
+use App\Models\ReservationLogementModel;
 use App\Models\TypeLogementModel;
 use CodeIgniter\Controller;
 
@@ -68,14 +69,8 @@ class Reservation extends Controller {
                 die('Les dates doivent correspondre à une période de vacances');
             }
 
-            // NOTE :
-            // SELECT * FROM calendirer WHERE date_debut_vac BETWEEN $dateEntree AND $dateSortie
-            //                                  AND date_fin_vac BETWEEN $dateEntree AND $dateSortie
-
-            // ou WHERE dateEntree BETWEEN date_debut_vac  AND date_fin_vac
-            //                                             AND dateSortie BETWEEN date_debut_vac AND date_fin_vac
-            $cal = new CalendrierVacancesModel();
-            //$cal->
+            $model = new ReservationLogementModel();
+            $model->verifieDisponibilite($dateEntree, $dateSortie,2, 1);
             // Vérification des disponibilité pour ces dates
 
 
