@@ -2,6 +2,7 @@
 
 use App\Models\CalendrierVacancesModel;
 use App\Models\ReservationLogementModel;
+use App\Models\ReservationModel;
 use App\Models\TypeLogementModel;
 use CodeIgniter\Controller;
 
@@ -41,6 +42,7 @@ class Reservation extends Controller {
             'dateEntree' => 'required',
             'dateSortie' => 'required',
             'nbLogements' => 'required',
+            'typeLogement' => 'required'
         ];
 
         #Validation de base
@@ -69,9 +71,12 @@ class Reservation extends Controller {
                 die('Les dates doivent correspondre à une période de vacances');
             }
 
-            $model = new ReservationLogementModel();
-            $model->verifieDisponibilite($dateEntree, $dateSortie,2, 1);
             // Vérification des disponibilité pour ces dates
+            $model = new ReservationModel();
+            $nbLogementsDispos = $model->calculeNbLogementsDispo($dateEntree, $dateSortie, $_POST['typeLogement']);
+            if( $nbLogementsDispos<$_POST['nbLogements'] ){
+                die('Pas assez de logements displonibles : ' .$nbLogementsDispos);
+            }
 
 
             // Si tout est valide : enreistre la réservation et redirection
