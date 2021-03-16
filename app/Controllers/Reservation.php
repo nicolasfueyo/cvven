@@ -8,6 +8,16 @@ use CodeIgniter\Controller;
 
 class Reservation extends Controller {
 
+    private function calculeNbJoursEntreDates($strDateDebut, $strDateFin){
+        $dtDebut = \DateTime::createFromFormat('Y-m-d',$strDateDebut );
+        $dtFin = \DateTime::createFromFormat('Y-m-d',$strDateFin );
+
+        $di = $dtFin->diff($dtDebut);
+        $nbJours = $di->format('%a');
+
+        return $nbJours;
+    }
+
     /**
      * Renvoie true si la date est un samedi, sinon renvoie false.
      * @param $strDate Date au format '20/02/2021'
@@ -84,9 +94,38 @@ class Reservation extends Controller {
             die('errur de validation');
         }
 
-        # Enregistre la réservation
+        # Calcule prix total
+        # Prix résa = (nb logements * ppn du tl*nb nuitées) + (ménage*nb logements) + (nb personnes*prix demi-p * nbnuits)
+        $typeLogement = (new TypeLogementModel())->find( $_POST['typeLogement'] );
+        $nbNuitee = $this->calculeNbJoursEntreDates($dateEntree, $dateSortie);
+        $prixTotal = $_POST['nbLogements'] * $typeLogement['prix_par_nuitee'] * $nbNuitee;
+
+        if( isset( $_POST['menageInclus'] ) ){// Ménage
+            $prixTotal += 25 * $_POST['nbLogements'];
+        }
+
+        if(  $_POST['typePension']=='PENSION COMPLETE'){// +20€ / logement / nuitée
+            $prixTotal += $_POST['nbLogements']  * $nbNuitee * 20;
+        }
+
+        # Enregistre réservation
+        $reservationModel = new ReservationModel();
+        $reservation = [
+
+        ];
+        $user_id = (session())->get('user_id');
+        $reservationModel->insert([
+            'utilisateur_id'=>$user_id,
+            'prix_total'=>$prixTotal,
+            'date_entree'=>$dateEntree,
+            'date_sortie'=>$dateSortie,
+            'etat'=>'NON-VALIDE',
+            'type_sejour'=>$_POST['typePension'],
+            'menage_fin_sejour_inclus'=>isset( $_POST['menageInclus'] )
+            ]);
 
         # Affiche vue message 'résearvation enregistrée'
+        die('ok');
     }
 
     public function index() {
