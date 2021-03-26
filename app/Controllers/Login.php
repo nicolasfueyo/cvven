@@ -13,7 +13,6 @@ class Login extends Controller
 
     public function auth()
     {
-        $adm_mail = 'admin@gmail.com';
         $session = session();
         $model = new UtilisateurModel();
         $email = $this->request->getVar('email');
@@ -35,10 +34,10 @@ class Login extends Controller
             }
 
             // Redirige vers l'admin si l'util est admin
-            if ($email === $adm_mail) {
+            if ($data['role']==='ADMIN') {
 
                 $session->set($ses_data);
-                return redirect()->to(site_url('AdminPage'));
+                return redirect()->to(site_url('AdminReservations/liste'));# Renvoi l'admin vers gestion réservations
             }
 
             // Redirige vers dashboard
