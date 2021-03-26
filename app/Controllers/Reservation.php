@@ -114,7 +114,7 @@ class Reservation extends Controller {
 
         ];
         $user_id = (session())->get('user_id');
-        $reservationModel->insert([
+        $nouvResId = $reservationModel->insert([
             'utilisateur_id'=>$user_id,
             'prix_total'=>$prixTotal,
             'date_entree'=>$dateEntree,
@@ -124,8 +124,18 @@ class Reservation extends Controller {
             'menage_fin_sejour_inclus'=>isset( $_POST['menageInclus'] )
             ]);
 
+        # Enregistre réservationLogement
+        $resLogementModel = new ReservationLogementModel();
+        $resLogementModel->insert([
+            'id_typelogement'=>$typeLogement['id'],
+            'id_reservation'=>$nouvResId,
+            'quantite'=>$_POST['nbLogements']
+        ]);
+
         # Affiche vue message 'résearvation enregistrée'
-        die('ok');
+        echo view('message',
+            ['titre'=>'Réservation enregistrée',
+            'message'=>'Merci pour votre réservation. Nous revenons vers vous pour confirmation!']);
     }
 
     public function index() {
