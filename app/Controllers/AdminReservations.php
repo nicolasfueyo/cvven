@@ -13,17 +13,14 @@ class AdminReservations extends Controller
 
         # Récupère ttes les réservations non validées
         $model = new ReservationModel();
-        $reservationsNonValidees = $model->where('etat', 'NON-VALIDE')
-            ->orderBy('id', 'desc')
-            ->findAll();
+        $reservationsNonValidees = $model->listeReservationsParEtat(false);
 
         # Récupère ttes les réservations validées
         $model = new ReservationModel();
-        $reservationsValidees = $model->where('etat', 'VALIDE')
-            ->orderBy('id', 'desc')
-            ->findAll();
+        $reservationsValidees = $model->listeReservationsParEtat(true);
 
         # Renvoie vers la vue
-        var_dump($reservationsNonValidees);
+        return view('adminpage.php', ['reservationsNonValidees'=>$reservationsNonValidees,
+                                            'reservationsValidees'=>$reservationsValidees] );
     }
 }
