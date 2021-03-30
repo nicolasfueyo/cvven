@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : mer. 03 fév. 2021 à 21:02
+-- Généré le : mar. 30 mars 2021 à 21:04
 -- Version du serveur :  10.4.17-MariaDB
 -- Version de PHP : 8.0.0
 
@@ -29,30 +29,17 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `calendriervacances` (
   `id` int(11) NOT NULL,
-  `date_jour` date NOT NULL
+  `date_debut` date DEFAULT NULL,
+  `date_fin` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Déchargement des données de la table `calendriervacances`
 --
 
-INSERT INTO `calendriervacances` (`id`, `date_jour`) VALUES
-(1, '2021-02-06'),
-(2, '2021-02-07'),
-(3, '2021-02-08'),
-(4, '2021-02-09'),
-(5, '2021-02-10'),
-(6, '2021-02-11'),
-(7, '2021-02-12'),
-(8, '2021-02-13'),
-(9, '2021-02-14'),
-(10, '2021-02-15'),
-(11, '2021-02-16'),
-(12, '2021-02-17'),
-(13, '2021-02-18'),
-(14, '2021-02-19'),
-(15, '2021-02-20'),
-(16, '2021-02-21');
+INSERT INTO `calendriervacances` (`id`, `date_debut`, `date_fin`) VALUES
+(1, '2021-07-03', '2021-08-28'),
+(2, '2021-12-25', '2022-01-08');
 
 -- --------------------------------------------------------
 
@@ -71,6 +58,16 @@ CREATE TABLE `reservation` (
   `menage_fin_sejour_inclus` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Déchargement des données de la table `reservation`
+--
+
+INSERT INTO `reservation` (`id`, `utilisateur_id`, `prix_total`, `date_entree`, `date_sortie`, `etat`, `type_sejour`, `menage_fin_sejour_inclus`) VALUES
+(8, 5, 1730, '2021-07-10', '2021-07-17', 'NON-VALIDE', 'PENSION COMPLETE', 1),
+(9, 5, 665, '2021-07-24', '2021-07-31', 'NON-VALIDE', 'DEMI-PENSION', 0),
+(10, 5, 980, '2021-08-07', '2021-08-14', 'NON-VALIDE', 'PENSION COMPLETE', 0),
+(11, 6, 3080, '2021-07-10', '2021-07-17', 'NON-VALIDE', 'PENSION COMPLETE', 0);
+
 -- --------------------------------------------------------
 
 --
@@ -83,6 +80,16 @@ CREATE TABLE `reservation_logement` (
   `id_reservation` int(11) NOT NULL,
   `quantite` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Déchargement des données de la table `reservation_logement`
+--
+
+INSERT INTO `reservation_logement` (`id`, `id_typelogement`, `id_reservation`, `quantite`) VALUES
+(7, 2, 8, 2),
+(8, 4, 9, 1),
+(9, 5, 10, 1),
+(10, 3, 11, 4);
 
 -- --------------------------------------------------------
 
@@ -132,7 +139,10 @@ CREATE TABLE `utilisateur` (
 --
 
 INSERT INTO `utilisateur` (`id`, `nom`, `email`, `mdp`, `prenom`, `tel`, `role`, `adresse`) VALUES
-(2, 'FUEYO RODRIGUEZ', 'lala@gmail.com', '$2y$10$pt0o.20oLOkWZNIl7WIVkeKLkXI.xa2DK5ySnM59bYaSUogwE9Jzu', 'Nicolas', '12122121', 'CLIENT', '9');
+(2, 'FUEYO RODRIGUEZ', 'lala@gmail.com', '$2y$10$pt0o.20oLOkWZNIl7WIVkeKLkXI.xa2DK5ySnM59bYaSUogwE9Jzu', 'Nicolas', '12122121', 'CLIENT', '9'),
+(3, 'Admin', 'admin@gmail.com', '$2y$10$pQdEFOkHgdST497jgJifwOXnYAz60VQFbLHIEah46ARp41VJg4/gS', 'Admin', '123456789', 'ADMIN', 'Test'),
+(5, 'FUEYO', 'bf@gmail.com', '$2y$10$Fie7Y03p2F3Z9TttB2gB0eX4v9AGtI/w4F0o4tR.HbqbgI3wF97vK', 'Benoit', '123456780', 'CLIENT', '9 rue de paris '),
+(6, 'fueyo ', 'cf@gmail.com', '$2y$10$.Ay8sCxhCyr2WajsIMqfeOBI.9oLqV79UNK9aPWYQ2UC47UUX8nrW', 'charles', '897987979', 'CLIENT', '9 rien ');
 
 --
 -- Index pour les tables déchargées
@@ -181,19 +191,19 @@ ALTER TABLE `utilisateur`
 -- AUTO_INCREMENT pour la table `calendriervacances`
 --
 ALTER TABLE `calendriervacances`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT pour la table `reservation`
 --
 ALTER TABLE `reservation`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT pour la table `reservation_logement`
 --
 ALTER TABLE `reservation_logement`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT pour la table `typelogement`
@@ -205,7 +215,7 @@ ALTER TABLE `typelogement`
 -- AUTO_INCREMENT pour la table `utilisateur`
 --
 ALTER TABLE `utilisateur`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- Contraintes pour les tables déchargées

@@ -23,7 +23,7 @@ class ReservationModel extends Model
         return $this->select('reservation.id, reservation.prix_total, reservation.date_entree, reservation.date_sortie,
                             reservation.type_sejour, reservation.menage_fin_sejour_inclus,
                             reservation_logement.quantite, typelogement.nom tl_nom,
-                            utilisateur.id, utilisateur.nom, utilisateur.prenom, utilisateur.email')
+                            utilisateur.id util_id, utilisateur.nom, utilisateur.prenom, utilisateur.email')
             ->join('reservation_logement', 'reservation.id=reservation_logement.id_reservation')
             ->join('typelogement', 'reservation_logement.id_typelogement=typelogement.id')
             ->join('utilisateur', 'reservation.utilisateur_id=utilisateur.id')
