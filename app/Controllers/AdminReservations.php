@@ -26,9 +26,20 @@ class AdminReservations extends Controller
 
     public function valider($reservationId){
 
+        // Vérification des disponibilité pour ces dates
+        $modelReservation = new ReservationModel();
+        $modelReservationLogement = new ReservationLogementModel();
+        $reservation = $modelReservation->find($reservationId);
+        $reservationLogement = $modelReservationLogement->where('id_reservation=', $reservationId)->first();
+        $nbLogementsDispos = $modelReservation->calculeNbLogementsDispo($reservation['date_entree'],
+            $reservation['date_sortie'], $reservationLogement['id_typelogement']);
+        if( $nbLogementsDispos<$reservationLogement['quantite'] ){
+            die('Pas assez de logements displonibles : ' .$nbLogementsDispos);
+        }
+
         # Passe l'état de la réservation à VALIDE en BD
-        $model = new ReservationModel();
-        $model->update($reservationId,['etat'=>'VALIDE']);
+        $modelReservation = new ReservationModel();
+        $modelReservation->update($reservationId,['etat'=>'VALIDE']);
 
         # Redirection vers Liste des réservations
         return redirect()->to('/AdminReservations/liste');

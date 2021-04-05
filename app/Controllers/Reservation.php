@@ -59,7 +59,7 @@ class Reservation extends Controller {
         $validationOk = $this->validate($rules);
         if($validationOk){
 
-            // Valide dateEntree sazmedi
+            // Valide dateEntree samedi
             $dateEntree = $_POST['dateEntree'];
             if (! $this->estSamedi($dateEntree)){
                 die('Date entrée doit être un samedi');

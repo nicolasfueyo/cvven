@@ -32,6 +32,8 @@
         <span class="navbar-toggler-icon"></span>
     </button>
 
+    <!-- Onglet navebar page admin -->
+
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav ml-auto">
             <li class="nav-item">
@@ -43,6 +45,9 @@
             <li class="nav-item">
                 <?php echo anchor("Login/logout", "Déconnexion", "class = 'nav-link'") ?>
             </li>
+
+            <!-- récupère l'username de la session pour l'afficher -->
+
             <li class="nav-item">
                 <?php $session = session(); ?>
                 <?php echo anchor("AdminPage", $session->get('user_name'), "class = 'nav-link'") ?>
@@ -59,7 +64,7 @@
     <div class="row align-items-center">
 
         <div class="col-12 col-md-10 formBlack d-flex align-items-center row">
-
+    # Liste des reservation en BDD
             <div class="col4">
                 <h2>Liste des réservations</h2>
 
@@ -91,6 +96,7 @@
                                 <td><?php echo $r['menage_fin_sejour_inclus'] ?></td>
                                 <td><?php echo $r['prix_total'] ?></td>
                                 <td>
+                                    <!-- bouton valider et refuser une reservation -->
                                     <a href="<?php echo site_url('AdminReservations/valider/'.$r['id']) ?>" class="btn btn-sm btn-success" style="margin: 5px;">Valider</a>
                                     <a href="<?php echo site_url('AdminReservations/refuser/'.$r['id']) ?>" class="btn btn-sm btn-danger">Refuser</a>
                                 </td>
