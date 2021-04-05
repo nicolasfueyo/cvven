@@ -12,7 +12,7 @@ class ReservationModel extends Model
     protected $allowedFields = ['id','utilisateur_id','prix_total','date_entree','date_sortie',
         'etat','type_sejour','menage_fin_sejour_inclus'];
 
-    public function listeReservationsParEtat(bool $validees){
+    public function listeReservationsParEtat(bool $validees, int $clientId=null){
 
         if($validees==true){
             $etat='VALIDE';
@@ -20,7 +20,7 @@ class ReservationModel extends Model
             $etat='NON-VALIDE';
         }
 
-        return $this->select('reservation.id, reservation.prix_total, reservation.date_entree, reservation.date_sortie,
+        $builder = $this->select('reservation.id, reservation.prix_total, reservation.date_entree, reservation.date_sortie,
                             reservation.type_sejour, reservation.menage_fin_sejour_inclus,
                             reservation_logement.quantite, typelogement.nom tl_nom,
                             utilisateur.id util_id, utilisateur.nom, utilisateur.prenom, utilisateur.email')
@@ -28,7 +28,12 @@ class ReservationModel extends Model
             ->join('typelogement', 'reservation_logement.id_typelogement=typelogement.id')
             ->join('utilisateur', 'reservation.utilisateur_id=utilisateur.id')
             ->where('reservation.etat=', $etat)
-            ->orderBy('reservation.id','desc')->findAll();
+            ->orderBy('reservation.id','desc');
+        if( $clientId!=null ){
+            $builder->where('utilisateur_id=', $clientId);
+        }
+
+        return $builder->findAll();
     }
 
     public function calculeNbLogementsDispo($dateEntree, $dateSortie, $typeLogementsId){

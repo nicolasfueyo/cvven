@@ -9,4 +9,8 @@ class UtilisateurModel extends Model{
 
     protected $table = 'utilisateur';
     protected $allowedFields = ['id','nom','email','mdp','prenom','tel','role','adresse'];
+
+    public function listerClients(){
+        return $this->where("role='CLIENT'")->orderBy('nom')->orderBy('prenom')->findAll();
+    }
 }

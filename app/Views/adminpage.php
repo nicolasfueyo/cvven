@@ -64,12 +64,22 @@
     <div class="row align-items-center">
 
         <div class="col-12 col-md-10 formBlack d-flex align-items-center row">
-    # Liste des reservation en BDD
+        <!-- Liste des reservation en BDD -->
             <div class="col4">
                 <h2>Liste des réservations</h2>
 
             </div>
             <div class="col-8">
+                <section>
+                    <h3>Filtrer par client :</h3>
+                    <?php echo form_open('/AdminReservations/liste') ?>
+                    <div class="mb-3">
+                        <label class="form-label">Client</label>
+                        <?php echo form_dropdown('client_id', $clients, $clientId, ['class'=>'form-control']) ?>
+                        <input type="submit" class="btn btn-sm btn-success" style="margin: 5px;" value="Filtrer">
+                    </div>
+                    </form>
+                </section>
                 <section>
                     <h3>Réservations non validées</h3>
                     <table class="table">

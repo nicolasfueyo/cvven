@@ -6,6 +6,7 @@ namespace App\Controllers;
 
 use App\Models\ReservationLogementModel;
 use App\Models\ReservationModel;
+use App\Models\UtilisateurModel;
 use CodeIgniter\Controller;
 
 class AdminReservations extends Controller
@@ -49,14 +50,29 @@ class AdminReservations extends Controller
 
         # Récupère ttes les réservations non validées
         $model = new ReservationModel();
-        $reservationsNonValidees = $model->listeReservationsParEtat(false);
+        $clientId = null;
+        if( isset($_POST['client_id']) and $_POST['client_id']!=false){
+            $clientId = $_POST['client_id'];
+        }
+        $reservationsNonValidees = $model->listeReservationsParEtat(false, $clientId);
 
         # Récupère ttes les réservations validées
         $model = new ReservationModel();
-        $reservationsValidees = $model->listeReservationsParEtat(true);
+        $reservationsValidees = $model->listeReservationsParEtat(true, $clientId);
 
+        # Récupère liste de tous les clients
+        $model = new UtilisateurModel();
+        $clients = $model->listerClients();
+        $clientsPourForm = [];
+        $clientsPourForm[null]='TOUS';
+        foreach ($clients as $client){
+            $clientsPourForm[ $client['id'] ] = $client['nom'] . ' ' . $client['prenom'];
+        }
+        helper(['form']);
         # Renvoie vers la vue
         return view('adminpage.php', ['reservationsNonValidees'=>$reservationsNonValidees,
-                                            'reservationsValidees'=>$reservationsValidees] );
+                                            'reservationsValidees'=>$reservationsValidees,
+                                            'clients'=>$clientsPourForm,
+                                            'clientId'=>$clientId] );
     }
 }
