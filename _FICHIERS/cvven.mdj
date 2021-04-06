@@ -2950,6 +2950,7 @@
 												"$ref": "AAAAAAF4GHZvWRxMCek="
 											},
 											"visible": false,
+											"fillColor": "#00ff00",
 											"font": "Arial;13;0",
 											"left": -96,
 											"top": 96,
@@ -2961,6 +2962,7 @@
 											"_parent": {
 												"$ref": "AAAAAAF4GHZvWRxMCek="
 											},
+											"fillColor": "#00ff00",
 											"font": "Arial;13;1",
 											"left": 31.5,
 											"top": 491.5,
@@ -2975,6 +2977,7 @@
 												"$ref": "AAAAAAF4GHZvWRxMCek="
 											},
 											"visible": false,
+											"fillColor": "#00ff00",
 											"font": "Arial;13;0",
 											"left": -96,
 											"top": 96,
@@ -2989,6 +2992,7 @@
 												"$ref": "AAAAAAF4GHZvWRxMCek="
 											},
 											"visible": false,
+											"fillColor": "#00ff00",
 											"font": "Arial;13;0",
 											"left": -96,
 											"top": 96,
@@ -2996,6 +3000,7 @@
 											"horizontalAlignment": 1
 										}
 									],
+									"fillColor": "#00ff00",
 									"font": "Arial;13;0",
 									"left": 26.5,
 									"top": 484.5,
@@ -3024,6 +3029,7 @@
 										"$ref": "AAAAAAF4GHZvWBxJPxc="
 									},
 									"visible": false,
+									"fillColor": "#00ff00",
 									"font": "Arial;13;0",
 									"left": -48,
 									"top": 48,
@@ -3040,6 +3046,7 @@
 										"$ref": "AAAAAAF4GHZvWBxJPxc="
 									},
 									"visible": false,
+									"fillColor": "#00ff00",
 									"font": "Arial;13;0",
 									"left": -48,
 									"top": 48,
@@ -3056,6 +3063,7 @@
 										"$ref": "AAAAAAF4GHZvWBxJPxc="
 									},
 									"visible": false,
+									"fillColor": "#00ff00",
 									"font": "Arial;13;0",
 									"left": -48,
 									"top": 48,
@@ -3072,6 +3080,7 @@
 										"$ref": "AAAAAAF4GHZvWBxJPxc="
 									},
 									"visible": false,
+									"fillColor": "#00ff00",
 									"font": "Arial;13;0",
 									"left": -48,
 									"top": 48,
@@ -3088,6 +3097,7 @@
 										"$ref": "AAAAAAF4GHZvWBxJPxc="
 									},
 									"visible": false,
+									"fillColor": "#00ff00",
 									"font": "Arial;13;0",
 									"left": -48,
 									"top": 48,
@@ -3095,6 +3105,7 @@
 									"height": 10
 								}
 							],
+							"fillColor": "#00ff00",
 							"font": "Arial;13;0",
 							"containerChangeable": true,
 							"top": 480,
@@ -5050,6 +5061,19 @@
 							},
 							"lineStyle": 1,
 							"points": "89:479;94:392"
+						},
+						{
+							"_type": "UMLNoteView",
+							"_id": "AAAAAAF4oy2T7P463jA=",
+							"_parent": {
+								"$ref": "AAAAAAF4GHIdwRFJbUo="
+							},
+							"font": "Arial;13;0",
+							"left": 784,
+							"top": 88,
+							"width": 84.30810546875,
+							"height": 79,
+							"text": "TODO:\n- Admin: modifier une réservation"
 						}
 					]
 				},
