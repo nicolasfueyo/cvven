@@ -39,8 +39,7 @@
                     <h3>Utilisateur</h3>
                     <table class="table">
                         <thead>
-                        <th>Nom</th>
-                        <th>Prénom</th>
+                        <th>Nom et prénom</th>
                         <th>Role</th>
                         <th>Téléphone</th>
                         <th>Email</th>
@@ -50,16 +49,15 @@
                         <tbody>
                         <?php foreach ($utilisateurs as $u): ?>
                             <tr>
-                                <td><?php echo $u['nom'] ?></td>
-                                <td><?php echo $u['prenom'] ?></td>
+                                <td><?php echo $u['prenom'] . ' ' . $u['nom'] ?></td>
                                 <td><?php echo $u['role'] ?></td>
                                 <td><?php echo $u['tel'] ?></td>
                                 <td><?php echo $u['email'] ?></td>
                                 <td><?php echo $u['adresse'] ?></td>
                                 <td>
                                     <!-- bouton valider et refuser une reservation -->
-                                    <a href="<?php echo site_url('AdminReservations/modifier/'.$u['id']) ?>" class="btn btn-sm btn-success" style="margin: 5px;">Modifier</a>
-                                    <a href="<?php echo site_url('AdminReservations/supprimer/'.$u['id']) ?>" class="btn btn-sm btn-danger">Supprimer</a>
+                                    <a href="<?php echo site_url('AdminUtilisateurs/modifier/'.$u['id']) ?>" class="btn btn-sm btn-success" style="margin: 5px;">Modifier</a>
+                                    <a href="<?php echo site_url('AdminUtilisateurs/supprimer/'.$u['id']) ?>" class="btn btn-sm btn-danger">Supprimer</a>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
