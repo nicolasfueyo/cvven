@@ -32,11 +32,11 @@
         <!-- Liste des reservation en BDD -->
             <div class="col4">
                 <h2>Liste des utilisateurs</h2>
-
             </div>
             <div class="col-8">
                 <section>
                     <h3>Utilisateur</h3>
+                    <a href="<?php echo site_url('AdminUtilisateurs/ajouter') ?>" class="btn btn-sm btn-success" style="margin: 5px;">Nouveau</a>
                     <table class="table">
                         <thead>
                         <th>Nom et prénom</th>

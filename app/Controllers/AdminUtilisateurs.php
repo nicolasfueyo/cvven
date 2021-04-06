@@ -11,6 +11,43 @@ use CodeIgniter\Controller;
 
 class AdminUtilisateurs extends Controller
 {
+    public function save(){
+        helper(['form']);
+
+        $rules = [
+            'prenom' => 'required|min_length[3]|max_length[20]',
+            'nom' => 'required|min_length[3]|max_length[20]',
+            'email' => 'required|min_length[6]|max_length[50]|valid_email|is_unique[utilisateur.email]',
+            'mdp' => 'required|min_length[6]|max_length[20]',
+            'confMdp' => 'matches[mdp]',
+        ];
+
+        if($this->validate($rules)){
+            $model = new UtilisateurModel();
+            $data = [
+                'prenom' => $this->request->getVar('prenom'),
+                'nom' => $this->request->getVar('nom'),
+                'tel' => $this->request->getVar('tel'),
+                'adresse' => $this->request->getVar('adresse'),
+                'email' => $this->request->getVar('email'),
+                'role'=>$this->request->getVar('role'),
+                'mdp' => password_hash($this->request->getVar('mdp'), PASSWORD_DEFAULT)
+            ];
+
+            $model->save($data);
+            return redirect()->to(site_url('AdminUtilisateurs/liste'));
+        }else{
+            $data['validation'] = $this->validator;
+            echo view('admin_utilisateur_ajouter', $data);
+        }
+    }
+
+    public function ajouter(){
+        helper(['form']);
+        $data = [];
+        echo view('admin_utilisateur_ajouter', $data);
+    }
+
     public function supprimer($id){
 
         # Redirige vers une pages d'erreur si l'utilisateur possède des réservations validées
