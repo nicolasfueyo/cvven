@@ -47,7 +47,7 @@
 
       <div class="dropdown-menu">  <?php $session = session();?>
 
-          # session pour récuperer le username du client connecté
+          <!-- session pour récuperer le username du client connecté -->
 
         <?php echo anchor("Dashboard/dash", $session->get('user_name'), "class = 'dropdown-item'")?>
         <?php echo anchor("Login/logout","Déconnexion","class = 'dropdown-item'")?>
