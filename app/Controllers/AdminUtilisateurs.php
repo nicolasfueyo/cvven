@@ -11,6 +11,55 @@ use CodeIgniter\Controller;
 
 class AdminUtilisateurs extends Controller
 {
+    public function modifierSave($idUtil){
+        helper(['form']);
+
+        $rules = [
+            'prenom' => 'required|min_length[3]|max_length[20]',
+            'nom' => 'required|min_length[3]|max_length[20]',
+            'email' => 'required|min_length[6]|max_length[50]|valid_email',
+        ];
+
+        if( $this->request->getVar('mdp')!=null ){
+
+            $rules['mdp'] = 'required|min_length[6]|max_length[20]';
+            $rules['confMdp'] = 'matches[mdp]';
+        }
+
+        if($this->validate($rules)){
+            $model = new UtilisateurModel();
+            $data = [
+                'id' => $idUtil,
+                'prenom' => $this->request->getVar('prenom'),
+                'nom' => $this->request->getVar('nom'),
+                'tel' => $this->request->getVar('tel'),
+                'adresse' => $this->request->getVar('adresse'),
+                'email' => $this->request->getVar('email'),
+            ];
+            if( $this->request->getVar('mdp')!=null ){
+                $data['mdp'] = password_hash($this->request->getVar('mdp'), PASSWORD_DEFAULT);
+            }
+
+            $model->save($data);
+            return redirect()->to(site_url('AdminUtilisateurs/liste'));
+        }else{
+            $model = new UtilisateurModel();
+            $util = $model->find($idUtil);
+
+            $data['validation'] = $this->validator;
+            $data['util'] = $util;
+            echo view('admin_utilisateur_modifier', $data);
+        }
+    }
+
+    public function modifier($utilId){
+
+        helper(['form']);
+        $model = new UtilisateurModel();
+        $util = $model->find($utilId);
+        echo view('admin_utilisateur_modifier', ['util'=>$util]);
+    }
+
     public function save(){
         helper(['form']);
 
