@@ -27,7 +27,7 @@ class Reservation extends Controller {
         ]);
     }
 
-    private function calculeNbJoursEntreDates($strDateDebut, $strDateFin){
+    static public function calculeNbJoursEntreDates($strDateDebut, $strDateFin){
         $dtDebut = \DateTime::createFromFormat('Y-m-d',$strDateDebut );
         $dtFin = \DateTime::createFromFormat('Y-m-d',$strDateFin );
 
@@ -42,7 +42,7 @@ class Reservation extends Controller {
      * @param $strDate Date au format '20/02/2021'
      * @return bool
      */
-    private function estSamedi($strDate)
+    static public function estSamedi($strDate)
     {
         $dt = \DateTime::createFromFormat('Y-m-d',$strDate );
         $numJour = $dt->format('w');
@@ -55,7 +55,7 @@ class Reservation extends Controller {
      * @param $strDateB
      * @return bool
      */
-    private function dateAnterieure($strDateA, $strDateB){
+    static public function dateAnterieure($strDateA, $strDateB){
         $dateA = \DateTime::createFromFormat('Y-m-d',$strDateA );
         $dateB = \DateTime::createFromFormat('Y-m-d',$strDateB );
 

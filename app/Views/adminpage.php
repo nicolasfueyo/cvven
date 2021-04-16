@@ -94,7 +94,6 @@
                         <th>Type de séjour</th>
                         <th>Ménage</th>
                         <th>Prix total</th>
-                        <th>Action</th>
                         </thead>
                         <tbody>
                         <?php foreach ($reservationsValidees as $r): ?>
@@ -107,9 +106,6 @@
                                 <td><?php echo $r['type_sejour'] ?></td>
                                 <td><?php echo $r['menage_fin_sejour_inclus'] ?></td>
                                 <td><?php echo $r['prix_total'] ?></td>
-                                <td>
-                                    <a href="<?php echo site_url('AdminReservations/modifier/'.$r['id']) ?>" class="btn btn-sm btn-danger">Modifier</a>
-                                </td>
                             </tr>
                         <?php endforeach; ?>
                         </tbody>
