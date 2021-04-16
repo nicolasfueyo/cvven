@@ -42,11 +42,12 @@
             <div class="mb-3">
                 <label class="form-label">Date d'entrée</label>
                 <input type="date" name="dateEntree" class="form-control"
-                       value="<?= set_value('dateEntree', $reservation['date_entree']) ?>>
+                       value="<?= set_value('dateEntree', $reservation['date_entree']) ?>">
                     </div>
                     <div class=" mb-3">
                 <label class="form-label">Date de sortie</label>
-                <input type="date" name="dateSortie" class="form-control">
+                <input type="date" name="dateSortie" class="form-control"
+                    value="<?= set_value('dateSortie', $reservation['date_sortie']) ?>">
             </div>
             <div class="mb-3">
                 <label class="form-label">Type de logement</label>
@@ -63,7 +64,8 @@
             </div>
             <div class="mb-3">
                 <label class="form-label">Ménage inclus en fin de séjour</label>
-                <input type="checkbox" name="menageInclus" class="form-control">
+                <!--input type="checkbox" name="menageInclus" class="form-control"-->
+                <?php echo form_checkbox('menageInclus', true, $reservation['menage_fin_sejour_inclus'], ['class' => 'form-control']) ?>
             </div>
             <div class="mb-3">
                 <input type="submit" value="Valider" class="form-control">

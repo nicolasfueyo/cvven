@@ -38,7 +38,9 @@ class AdminReservations extends Controller
 
         // Formate date entree / sortie
         $dt = new \DateTime($reservation['date_entree']);
-        $data['reservation']['date_entree'] = $dt->format('d/m/Y');
+        $data['reservation']['date_entree'] = $dt->format('Y-m-d');
+        $dt = new \DateTime($reservation['date_sortie']);
+        $data['reservation']['date_sortie'] = $dt->format('Y-m-d');
 
         // Charge les utilisateurs
         $model = new UtilisateurModel();
