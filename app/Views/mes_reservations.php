@@ -101,7 +101,9 @@
                             <td><?php echo $r['menage_fin_sejour_inclus'] ?></td>
                             <td><?php echo $r['prix_total'] ?></td>
                             <td>
-                                <!-- bouton modifier, valider et refuser une reservation -->
+                                <a href="#" class="btn btn-danger btn-sm">
+                                    supprime
+                                </a>
                             </td>
                         </tr>
                     <?php endforeach; ?>
