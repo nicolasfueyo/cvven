@@ -5,8 +5,23 @@ use App\Models\ReservationLogementModel;
 use App\Models\ReservationModel;
 use App\Models\TypeLogementModel;
 use CodeIgniter\Controller;
+use CodeIgniter\Session\Session;
 
 class Reservation extends Controller {
+    public function mesReservations(){
+
+        // Récup userid en session
+        $session=session();
+        $userId=$session->get("user_id");
+
+        // Récup mes réservations en BD
+        $model=new ReservationModel();
+        $reservationsValidees=$model->listeReservationsParEtat(true,$userId);
+        $reservationNonValidees=$model->listeReservationsParEtat(false,$userId);
+
+
+        // Renvoie vers la vue
+    }
 
     private function calculeNbJoursEntreDates($strDateDebut, $strDateFin){
         $dtDebut = \DateTime::createFromFormat('Y-m-d',$strDateDebut );
