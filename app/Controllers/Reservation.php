@@ -151,6 +151,14 @@ class Reservation extends Controller {
             'quantite'=>$_POST['nbLogements']
         ]);
 
+        # Envoie email à l'admin
+        $email = \Config\Services::email();
+        $email->setFrom('admin@cvven.com', 'CVVEN');
+        $email->setTo('nicolas93100.fueyo@gmail.com ');
+        $email->setSubject('Nouvelle demande de réservation');
+        $email->setMessage('Blabla');
+        $email->send();
+
         # Affiche vue message 'résearvation enregistrée'
         echo view('message',
             ['titre'=>'Réservation enregistrée',
