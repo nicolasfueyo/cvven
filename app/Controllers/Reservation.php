@@ -47,6 +47,7 @@ class Reservation extends Controller {
 
     public function post(){
 
+        $session = session();
         helper(['form']);
         helper("reservation_helper");
 
@@ -100,6 +101,14 @@ class Reservation extends Controller {
         # Calcule prix total
         $menageInclus = isset( $_POST['menageInclus'] ) ? true : false;
         $prixTotal=calculerPrixReservation($_POST['typeLogement'],$_POST['nbLogements'],$dateEntree,$dateSortie,$menageInclus,$_POST['typePension']);
+
+        # Affiche le prix si on a pas encore validé
+        if( $session->has('flash_etape_1') ){
+            $session->setFlashdata('flash_etape_1', 'flash_etape_1');
+            $session->setFlashdata('prix_total', $prixTotal);
+            echo view('reservation');
+            return;
+        }
 
         # Enregistre réservation
         $reservationModel = new ReservationModel();
