@@ -45,44 +45,10 @@ class Reservation extends Controller {
         ]);
     }
 
-    static public function calculeNbJoursEntreDates($strDateDebut, $strDateFin){
-        $dtDebut = \DateTime::createFromFormat('Y-m-d',$strDateDebut );
-        $dtFin = \DateTime::createFromFormat('Y-m-d',$strDateFin );
-
-        $di = $dtFin->diff($dtDebut);
-        $nbJours = $di->format('%a');
-
-        return $nbJours;
-    }
-
-    /**
-     * Renvoie true si la date est un samedi, sinon renvoie false.
-     * @param $strDate Date au format '20/02/2021'
-     * @return bool
-     */
-    static public function estSamedi($strDate)
-    {
-        $dt = \DateTime::createFromFormat('Y-m-d',$strDate );
-        $numJour = $dt->format('w');
-        return $numJour==6;
-    }
-
-    /**
-     * Renvoie TRUE si la date strDateA < strDateB
-     * @param $strDateA
-     * @param $strDateB
-     * @return bool
-     */
-    static public function dateAnterieure($strDateA, $strDateB){
-        $dateA = \DateTime::createFromFormat('Y-m-d',$strDateA );
-        $dateB = \DateTime::createFromFormat('Y-m-d',$strDateB );
-
-        return $dateA->getTimestamp() < $dateB->getTimestamp();
-    }
-
     public function post(){
 
         helper(['form']);
+        helper("reservation_helper");
 
         # Validation demande de réservation
         $rules = [
@@ -98,17 +64,17 @@ class Reservation extends Controller {
 
             // Valide dateEntree samedi
             $dateEntree = $_POST['dateEntree'];
-            if (! $this->estSamedi($dateEntree)){
+            if (! estSamedi($dateEntree)){
                 die('Date entrée doit être un samedi');
             }
             // Valide que la date de sortie est un samedi
             $dateSortie = $_POST['dateSortie'];
-            if (! $this->estSamedi($dateSortie)){
+            if (! estSamedi($dateSortie)){
                 die('La date de sortie doit être un samedi');
             }
 
             // Valide que dateEntree est plus petite que dateSortie
-            if (!$this->dateAnterieure($dateEntree,$dateSortie)){
+            if (!dateAnterieure($dateEntree,$dateSortie)){
                 die('Date sortie est doit etre supérieur a date entrée');
             }
 
@@ -132,18 +98,8 @@ class Reservation extends Controller {
         }
 
         # Calcule prix total
-        # Prix résa = (nb logements * ppn du tl*nb nuitées) + (ménage*nb logements) + (nb personnes*prix demi-p * nbnuits)
-        $typeLogement = (new TypeLogementModel())->find( $_POST['typeLogement'] );
-        $nbNuitee = $this->calculeNbJoursEntreDates($dateEntree, $dateSortie);
-        $prixTotal = $_POST['nbLogements'] * $typeLogement['prix_par_nuitee'] * $nbNuitee;
-
-        if( isset( $_POST['menageInclus'] ) ){// Ménage
-            $prixTotal += 25 * $_POST['nbLogements'];
-        }
-
-        if(  $_POST['typePension']=='PENSION COMPLETE'){// +20€ / logement / nuitée
-            $prixTotal += $_POST['nbLogements']  * $nbNuitee * 20;
-        }
+        $menageInclus = isset( $_POST['menageInclus'] ) ? true : false;
+        $prixTotal=calculerPrixReservation($_POST['typeLogement'],$_POST['nbLogements'],$dateEntree,$dateSortie,$menageInclus,$_POST['typePension']);
 
         # Enregistre réservation
         $reservationModel = new ReservationModel();
@@ -162,6 +118,7 @@ class Reservation extends Controller {
             ]);
 
         # Enregistre réservationLogement
+        $typeLogement = (new TypeLogementModel())->find($_POST['typeLogement']);
         $resLogementModel = new ReservationLogementModel();
         $resLogementModel->insert([
             'id_typelogement'=>$typeLogement['id'],
@@ -175,7 +132,7 @@ class Reservation extends Controller {
         helper("email_helper");
         $message = sprintf("Nouvelle demande de réservation de la part de %s %s: 
             , du %s au %s, %d %s x %d nuitées", $client['prenom'], $client['nom'], $dateEntree, $dateSortie, $_POST['nbLogements'],
-            $typeLogement["nom"], $nbNuitee);
+            $typeLogement["nom"], calculeNbJoursEntreDates($dateEntree, $dateSortie));
         envoyerEmail("nicolas93100.fueyo@gmail.com","Nouvelle réservation",
             $message);
 
