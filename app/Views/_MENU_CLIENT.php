@@ -1,3 +1,6 @@
+<?php
+helper('html');
+?>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
         <?= anchor("Dashboard", '<img src="' . base_url("img/icon.webp") . '" alt="logo">', "class = 'navbar-brand'") ?>
@@ -26,8 +29,7 @@
                 <div class="dropdown">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button"
                        aria-haspopup="true" aria-expanded="false" src=("img/icon.webp")>
-                        <img src="../img/user.png" style="width:18px;">
-
+                        <?php echo img('img/user.png', false, ['style'=>'width:18px']) ?>
                     </a> <!-- lien -->
 
                     <div class="dropdown-menu">  <?php $session = session(); ?>
