@@ -101,8 +101,8 @@
                             <td><?php echo $r['menage_fin_sejour_inclus'] ?></td>
                             <td><?php echo $r['prix_total'] ?></td>
                             <td>
-                                <a href="#" class="btn btn-danger btn-sm">
-                                    supprime
+                                <a href="<?php echo site_url('Reservation/Supprimer/'.$r['id']) ?>" class="btn btn-danger btn-sm">
+                                    supprimer
                                 </a>
                             </td>
                         </tr>

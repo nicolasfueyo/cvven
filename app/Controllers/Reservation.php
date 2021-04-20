@@ -8,6 +8,23 @@ use CodeIgniter\Controller;
 use CodeIgniter\Session\Session;
 
 class Reservation extends Controller {
+
+    public function supprimer($id){
+
+        # Supprimer le réservation_logement pour cette réservation
+        $model=new ReservationLogementModel();
+        $model->supprimeParReservationId($id);
+
+        # Supprimer la réservation
+        $model=new ReservationModel();
+        $model->delete($id);
+
+        # Affiche vue message 'résearvation enregistrée'
+        echo view('message',
+            [   'titre'=>'Réservation supprimée',
+                'message'=>'Nous avons bien supprimé votre réservation!!']);
+    }
+
     public function mesReservations(){
 
         // Récup userid en session
