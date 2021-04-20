@@ -4,6 +4,7 @@ use App\Models\CalendrierVacancesModel;
 use App\Models\ReservationLogementModel;
 use App\Models\ReservationModel;
 use App\Models\TypeLogementModel;
+use App\Models\UtilisateurModel;
 use CodeIgniter\Controller;
 use CodeIgniter\Session\Session;
 
@@ -169,12 +170,14 @@ class Reservation extends Controller {
         ]);
 
         # Envoie email à l'admin
-        $email = \Config\Services::email();
-        $email->setFrom('admin@cvven.com', 'CVVEN');
-        $email->setTo('nicolas93100.fueyo@gmail.com ');
-        $email->setSubject('Nouvelle demande de réservation');
-        $email->setMessage('Blabla');
-        $email->send();
+        $model = new UtilisateurModel();
+        $client = $model->find($user_id);
+        helper("email_helper");
+        $message = sprintf("Nouvelle demande de réservation de la part de %s %s: 
+            , du %s au %s, %d %s x %d nuitées", $client['prenom'], $client['nom'], $dateEntree, $dateSortie, $_POST['nbLogements'],
+            $typeLogement["nom"], $nbNuitee);
+        envoyerEmail("nicolas93100.fueyo@gmail.com","Nouvelle réservation",
+            $message);
 
         # Affiche vue message 'résearvation enregistrée'
         echo view('message_client',

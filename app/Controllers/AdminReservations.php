@@ -149,13 +149,23 @@ class AdminReservations extends Controller
 
     public function refuser($reservationId){
 
+        # Récupère email du client
+        $model = new ReservationModel();
+        $reservation = $model->find($reservationId);
+        $model = new UtilisateurModel();
+        $client = $model->find($reservation["utilisateur_id"]);
+        $emailClient = $client['email'];
+
         # Supprimer en BD les ReservationLogement et la réservation
         $model = new ReservationLogementModel();
         $model->supprimeParReservationId($reservationId);
 
-
         $model = new ReservationModel();
         $model->delete($reservationId);
+
+        # Envoi mail refus de la réservation
+        helper('email_helper');
+        envoyerEmail($emailClient,"Réservation refusée", "Votre réservation à été refusée, n'hésitez pas à nous contacter!");
 
         # Redirection vers Liste des réservations
         return redirect()->to('/AdminReservations/liste');
@@ -177,6 +187,13 @@ class AdminReservations extends Controller
         # Passe l'état de la réservation à VALIDE en BD
         $modelReservation = new ReservationModel();
         $modelReservation->update($reservationId,['etat'=>'VALIDE']);
+
+        # Envoi mail validation de la réservation
+        $model = new UtilisateurModel();
+        $client = $model->find($reservation["utilisateur_id"]);
+        $emailClient = $client['email'];
+        helper('email_helper');
+        envoyerEmail($emailClient,"Réservation accepté", "Votre réservation à été acceptée!");
 
         # Redirection vers Liste des réservations
         return redirect()->to('/AdminReservations/liste');
