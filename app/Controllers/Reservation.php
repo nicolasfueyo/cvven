@@ -20,7 +20,7 @@ class Reservation extends Controller {
         $model->delete($id);
 
         # Affiche vue message 'résearvation enregistrée'
-        echo view('message',
+        echo view('message_client',
             [   'titre'=>'Réservation supprimée',
                 'message'=>'Nous avons bien supprimé votre réservation!!']);
     }
@@ -177,7 +177,7 @@ class Reservation extends Controller {
         $email->send();
 
         # Affiche vue message 'résearvation enregistrée'
-        echo view('message',
+        echo view('message_client',
             ['titre'=>'Réservation enregistrée',
             'message'=>'Merci pour votre réservation. Nous revenons vers vous pour confirmation!']);
     }
