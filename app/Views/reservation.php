@@ -34,38 +34,48 @@
 
             </div>
             <div class="col-12 col-md-6">
-
+                <h3>
+                    <?php if(isset($validation)):?>
+                        <div class="alert alert-danger"><?= $validation->listErrors() ?></div>
+                    <?php endif;?>
+                </h3>
                 Formulaire ICI
                 <?php echo form_open('reservation/post') ?>
                     <div class="mb-3">
                         <label class="form-label">Date d'entrée</label>
-                        <input type="date" name="dateEntree" class="form-control">
+                        <input type="date" name="dateEntree" class="form-control" value="<?= set_value('dateEntree', $reservation['dateEntree']) ?>">
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Date de sortie</label>
-                        <input type="date" name="dateSortie" class="form-control">
+                        <input type="date" name="dateSortie" class="form-control" value="<?= set_value('dateSortie', $reservation['dateSortie']) ?>">
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Type de logement</label>
-                        <?php echo form_dropdown('typeLogement', $typesLogements, null, ['class'=>'form-control']) ?>
+                        <?php echo form_dropdown('typeLogementId', $typesLogements, $reservation['typeLogementId'], ['class'=>'form-control']) ?>
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Nombre de logements</label>
-                        <input type="number" min="1" max="10" name="nbLogements" class="form-control">
+                        <input type="number" min="1" max="10" name="nbLogements" class="form-control" value="<?= set_value('nbLogements', $reservation['nbLogements']) ?>">
                     </div>
                     <div class="mb-3">
                         <label class="form-label"></label>
-                        <select class="form-control" name="typePension">
-                            <option>DEMI-PENSION</option>
-                            <option>PENSION COMPLETE</option>
-                        </select>
+                        <?php echo form_dropdown('typePension', ['DEMI-PENSION' => 'DEMI-PENSION', 'PENSION COMPLETE' => 'PENSION COMPLETE'], $reservation['typePension'], ['class' => 'form-control']) ?>
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Ménage inclus en fin de séjour</label>
-                        <input type="checkbox" name="menageInclus" class="form-control">
+                        <?php echo form_checkbox('menageInclus', true, $reservation['menageInclus'], ['class' => 'form-control']) ?>
                     </div>
+                <?php
+                    $session = session();
+                    if( $session->has('prix_total') ){
+                        $titreBouton = "Réserver au prix de : " . $session->getFlashdata('prix_total');
+                    }else{
+                        $titreBouton = "Afficher le prix";
+                    }
+
+                ?>
                     <div class="mb-3">
-                        <input type="submit" value="Réserver" class="form-control">
+                        <input type="submit" value="<?php echo $titreBouton ?>" class="form-control">
                     </div>
                 </form>
             </div>

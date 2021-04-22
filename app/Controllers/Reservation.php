@@ -56,8 +56,17 @@ class Reservation extends Controller {
             'dateEntree' => 'required',
             'dateSortie' => 'required',
             'nbLogements' => 'required',
-            'typeLogement' => 'required'
+            'typeLogementId' => 'required'
         ];
+
+        # Charle les types de logement
+        $data = [];
+        $typesLogements = [];
+        $model = new TypeLogementModel();
+        foreach ( $model->findAll() as $typeLogement ){
+            $typesLogements[ $typeLogement['id'] ] = $typeLogement['nom'];
+        }
+        $data['typesLogements'] = $typesLogements;
 
         #Validation de base
         $validationOk = $this->validate($rules);
@@ -87,7 +96,7 @@ class Reservation extends Controller {
 
             // Vérification des disponibilité pour ces dates
             $model = new ReservationModel();
-            $nbLogementsDispos = $model->calculeNbLogementsDispo($dateEntree, $dateSortie, $_POST['typeLogement']);
+            $nbLogementsDispos = $model->calculeNbLogementsDispo($dateEntree, $dateSortie, $_POST['typeLogementId']);
             if( $nbLogementsDispos<$_POST['nbLogements'] ){
                 die('Pas assez de logements displonibles : ' .$nbLogementsDispos);
             }
@@ -95,20 +104,50 @@ class Reservation extends Controller {
 
             // Si tout est valide : enreistre la réservation et redirection
         }else{
-            die('errur de validation');
+            $session = session();
+            $session->setFlashdata( 'etape_reservation', '1' );
+
+            # Prépare valeurs du formulaire
+            $data['reservation'] = [];
+            $data['reservation']['typeLogementId'] = $_POST['typeLogementId'];
+            $data['reservation']['nbLogements'] = $_POST['nbLogements'];
+            $data['reservation']['dateEntree'] = $_POST['dateEntree'];
+            $data['reservation']['dateSortie'] = $_POST['dateSortie'];
+            $data['reservation']['typePension'] = $_POST['typePension'];
+            $data['reservation']['menageInclus'] = isset($_POST['menageInclus']) ? $_POST['menageInclus'] : false;
+
+            $data['validation'] = $this->validator;
+
+            echo view('reservation', $data);
+            return;
         }
 
         # Calcule prix total
         $menageInclus = isset( $_POST['menageInclus'] ) ? true : false;
-        $prixTotal=calculerPrixReservation($_POST['typeLogement'],$_POST['nbLogements'],$dateEntree,$dateSortie,$menageInclus,$_POST['typePension']);
+        $prixTotal=calculerPrixReservation($_POST['typeLogementId'],$_POST['nbLogements'],$dateEntree,$dateSortie,$menageInclus,$_POST['typePension']);
 
         # Affiche le prix si on a pas encore validé
-        if( $session->has('flash_etape_1') ){
-            $session->setFlashdata('flash_etape_1', 'flash_etape_1');
+        $etapeReservation = $session->getFlashdata('etape_reservation');
+        if( $etapeReservation==1 ){
+            $session->setFlashdata('etape_reservation', 2);
             $session->setFlashdata('prix_total', $prixTotal);
-            echo view('reservation');
+
+            # Prépare valeurs du formulaire
+            $data['reservation'] = [];
+            $data['reservation']['typeLogementId'] = $_POST['typeLogementId'];
+            $data['reservation']['nbLogements'] = $_POST['nbLogements'];
+            $data['reservation']['dateEntree'] = $_POST['dateEntree'];
+            $data['reservation']['dateSortie'] = $_POST['dateSortie'];
+            $data['reservation']['typePension'] = $_POST['typePension'];
+            $data['reservation']['menageInclus'] = isset($_POST['menageInclus']) ? $_POST['menageInclus'] : false;
+
+            helper(['form']);
+
+            echo view('reservation', $data);
             return;
         }
+
+        // Etape réservation == 2
 
         # Enregistre réservation
         $reservationModel = new ReservationModel();
@@ -116,6 +155,13 @@ class Reservation extends Controller {
 
         ];
         $user_id = (session())->get('user_id');
+
+        // Formate date entree / sortie
+        $dt = new \DateTime($_POST['dateEntree']);
+        $dateEntree = $dt->format('Y-m-d');
+        $dt = new \DateTime($_POST['dateSortie']);
+        $dateSortie = $dt->format('Y-m-d');
+
         $nouvResId = $reservationModel->insert([
             'utilisateur_id'=>$user_id,
             'prix_total'=>$prixTotal,
@@ -127,7 +173,7 @@ class Reservation extends Controller {
             ]);
 
         # Enregistre réservationLogement
-        $typeLogement = (new TypeLogementModel())->find($_POST['typeLogement']);
+        $typeLogement = (new TypeLogementModel())->find($_POST['typeLogementId']);
         $resLogementModel = new ReservationLogementModel();
         $resLogementModel->insert([
             'id_typelogement'=>$typeLogement['id'],
@@ -153,6 +199,9 @@ class Reservation extends Controller {
 
     public function index() {
 
+        $session = session();
+        $session->setFlashdata( 'etape_reservation', '1' );
+
         $data = [];
 
         // Charge types de logement
@@ -162,6 +211,13 @@ class Reservation extends Controller {
             $typesLogements[ $typeLogement['id'] ] = $typeLogement['nom'];
         }
         $data['typesLogements'] = $typesLogements;
+        $data['reservation'] = [];
+        $data['reservation']['typeLogementId'] = '';
+        $data['reservation']['nbLogements'] = '';
+        $data['reservation']['dateEntree'] = '';
+        $data['reservation']['dateSortie'] = '';
+        $data['reservation']['typePension'] = '';
+        $data['reservation']['menageInclus'] = false;
 
         helper(['form']);
 

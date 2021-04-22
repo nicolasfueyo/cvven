@@ -64,7 +64,6 @@
             </div>
             <div class="mb-3">
                 <label class="form-label">Ménage inclus en fin de séjour</label>
-                <!--input type="checkbox" name="menageInclus" class="form-control"-->
                 <?php echo form_checkbox('menageInclus', true, $reservation['menage_fin_sejour_inclus'], ['class' => 'form-control']) ?>
             </div>
             <div class="mb-3">
