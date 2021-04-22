@@ -75,35 +75,37 @@ class Reservation extends Controller {
             // Valide dateEntree samedi
             $dateEntree = $_POST['dateEntree'];
             if (! estSamedi($dateEntree)){
-                die('Date entrée doit être un samedi');
+                $this->validator->setError('date_entree', 'Date entrée doit être un samedi');
             }
             // Valide que la date de sortie est un samedi
             $dateSortie = $_POST['dateSortie'];
             if (! estSamedi($dateSortie)){
-                die('La date de sortie doit être un samedi');
+                $this->validator->setError('date_sortie', 'Date sortie doit être un samedi');
             }
 
             // Valide que dateEntree est plus petite que dateSortie
             if (!dateAnterieure($dateEntree,$dateSortie)){
-                die('Date sortie est doit etre supérieur a date entrée');
+                $this->validator->setError('date_sortie', 'Date sortie est doit etre supérieure a date entrée');
             }
 
             // Valide que les dates demandées correspondent à une période de vacances
             $model = new CalendrierVacancesModel();
             if( !$model->verifieDateVacancesValides($dateEntree, $dateSortie) ){
-                die('Les dates doivent correspondre à une période de vacances');
+                $this->validator->setError('date_entree', 'Les dates doivent correspondre à une période de vacances');
             }
 
             // Vérification des disponibilité pour ces dates
             $model = new ReservationModel();
             $nbLogementsDispos = $model->calculeNbLogementsDispo($dateEntree, $dateSortie, $_POST['typeLogementId']);
             if( $nbLogementsDispos<$_POST['nbLogements'] ){
-                die('Pas assez de logements displonibles : ' .$nbLogementsDispos);
+                $this->validator->setError('prix_total','Pas assez de logements displonibles : ' .$nbLogementsDispos);
             }
 
 
             // Si tout est valide : enreistre la réservation et redirection
-        }else{
+        }
+
+        if( count($this->validator->getErrors())>0 ){
             $session = session();
             $session->setFlashdata( 'etape_reservation', '1' );
 
