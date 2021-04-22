@@ -36,7 +36,7 @@ helper('html');
 
                         <!-- session pour récuperer le username du client connecté -->
 
-                        <?php echo anchor("Dashboard/dash", $session->get('user_name'), "class = 'dropdown-item'") ?>
+                        <?php echo anchor("Moncompte/changermdpget", $session->get('user_name'), "class = 'dropdown-item'") ?>
                         <?php echo anchor("Login/logout", "Déconnexion", "class = 'dropdown-item'") ?>
 
 
