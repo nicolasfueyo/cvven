@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : mar. 30 mars 2021 à 21:04
+-- Généré le : sam. 08 mai 2021 à 19:16
 -- Version du serveur :  10.4.17-MariaDB
 -- Version de PHP : 8.0.0
 
@@ -63,10 +63,16 @@ CREATE TABLE `reservation` (
 --
 
 INSERT INTO `reservation` (`id`, `utilisateur_id`, `prix_total`, `date_entree`, `date_sortie`, `etat`, `type_sejour`, `menage_fin_sejour_inclus`) VALUES
-(8, 5, 1730, '2021-07-10', '2021-07-17', 'NON-VALIDE', 'PENSION COMPLETE', 1),
-(9, 5, 665, '2021-07-24', '2021-07-31', 'NON-VALIDE', 'DEMI-PENSION', 0),
-(10, 5, 980, '2021-08-07', '2021-08-14', 'NON-VALIDE', 'PENSION COMPLETE', 0),
-(11, 6, 3080, '2021-07-10', '2021-07-17', 'NON-VALIDE', 'PENSION COMPLETE', 0);
+(8, 5, 1730, '2021-07-10', '2021-07-17', 'VALIDE', 'PENSION COMPLETE', 1),
+(10, 5, 980, '2021-08-07', '2021-08-14', 'VALIDE', 'PENSION COMPLETE', 0),
+(11, 6, 3080, '2021-07-10', '2021-07-17', 'VALIDE', 'PENSION COMPLETE', 0),
+(12, 6, 4325, '2021-07-10', '2021-07-17', 'VALIDE', 'PENSION COMPLETE', 1),
+(15, 6, 2150, '2021-07-10', '2021-07-17', 'NON-VALIDE', 'DEMI-PENSION', 1),
+(16, 6, 1050, '2021-07-10', '2021-07-17', 'NON-VALIDE', 'DEMI-PENSION', 0),
+(19, 6, 795, '2021-07-10', '2021-07-17', 'VALIDE', 'PENSION COMPLETE', 1),
+(20, 6, 2100, '2021-07-10', '2021-07-17', 'NON-VALIDE', 'DEMI-PENSION', 0),
+(22, 6, 690, '2021-07-17', '2021-07-24', 'NON-VALIDE', 'DEMI-PENSION', 1),
+(25, 6, 2385, '0000-00-00', '0000-00-00', 'NON-VALIDE', 'PENSION COMPLETE', 1);
 
 -- --------------------------------------------------------
 
@@ -87,9 +93,14 @@ CREATE TABLE `reservation_logement` (
 
 INSERT INTO `reservation_logement` (`id`, `id_typelogement`, `id_reservation`, `quantite`) VALUES
 (7, 2, 8, 2),
-(8, 4, 9, 1),
 (9, 5, 10, 1),
-(10, 3, 11, 4);
+(10, 3, 11, 4),
+(11, 2, 12, 13),
+(14, 1, 15, 2),
+(15, 1, 16, 1),
+(18, 3, 19, 1),
+(19, 1, 20, 2),
+(21, 4, 22, 1);
 
 -- --------------------------------------------------------
 
@@ -139,10 +150,9 @@ CREATE TABLE `utilisateur` (
 --
 
 INSERT INTO `utilisateur` (`id`, `nom`, `email`, `mdp`, `prenom`, `tel`, `role`, `adresse`) VALUES
-(2, 'FUEYO RODRIGUEZ', 'lala@gmail.com', '$2y$10$pt0o.20oLOkWZNIl7WIVkeKLkXI.xa2DK5ySnM59bYaSUogwE9Jzu', 'Nicolas', '12122121', 'CLIENT', '9'),
 (3, 'Admin', 'admin@gmail.com', '$2y$10$pQdEFOkHgdST497jgJifwOXnYAz60VQFbLHIEah46ARp41VJg4/gS', 'Admin', '123456789', 'ADMIN', 'Test'),
-(5, 'FUEYO', 'bf@gmail.com', '$2y$10$Fie7Y03p2F3Z9TttB2gB0eX4v9AGtI/w4F0o4tR.HbqbgI3wF97vK', 'Benoit', '123456780', 'CLIENT', '9 rue de paris '),
-(6, 'fueyo ', 'cf@gmail.com', '$2y$10$.Ay8sCxhCyr2WajsIMqfeOBI.9oLqV79UNK9aPWYQ2UC47UUX8nrW', 'charles', '897987979', 'CLIENT', '9 rien ');
+(5, 'FUEYO', 'bf@gmail.com', '$2y$10$XwC079m.12AZCiSm4QZ7COIexFOAjNv78gOPmKcJAtHagXHr7j.UG', 'Benoit', '123456780', 'CLIENT', '9 rue de paris'),
+(6, 'fueyo ', 'nicolas93100.fueyo@gmail.com', '$2y$10$.Ay8sCxhCyr2WajsIMqfeOBI.9oLqV79UNK9aPWYQ2UC47UUX8nrW', 'charles', '897987979', 'CLIENT', '9 rien ');
 
 --
 -- Index pour les tables déchargées
@@ -197,13 +207,13 @@ ALTER TABLE `calendriervacances`
 -- AUTO_INCREMENT pour la table `reservation`
 --
 ALTER TABLE `reservation`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT pour la table `reservation_logement`
 --
 ALTER TABLE `reservation_logement`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT pour la table `typelogement`
@@ -215,7 +225,7 @@ ALTER TABLE `typelogement`
 -- AUTO_INCREMENT pour la table `utilisateur`
 --
 ALTER TABLE `utilisateur`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- Contraintes pour les tables déchargées
