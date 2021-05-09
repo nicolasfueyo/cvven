@@ -20,6 +20,7 @@ class ReservationModel extends Model
             $etat='NON-VALIDE';
         }
 
+        // Crée le  builder afin de sélectionner TOUTES les réservations à l'état voulu (indépendament du client)
         $builder = $this->select('reservation.id, reservation.prix_total, reservation.date_entree, reservation.date_sortie,
                             reservation.type_sejour, reservation.menage_fin_sejour_inclus,
                             reservation_logement.quantite, typelogement.nom tl_nom,
@@ -29,6 +30,8 @@ class ReservationModel extends Model
             ->join('utilisateur', 'reservation.utilisateur_id=utilisateur.id')
             ->where('reservation.etat=', $etat)
             ->orderBy('reservation.id','desc');
+
+        // Complete la requete contenue dans le builder au cas où le clientId est spécifié
         if( $clientId!=null ){
             $builder->where('utilisateur_id=', $clientId);
         }

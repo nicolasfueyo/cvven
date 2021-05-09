@@ -38,7 +38,6 @@ class Reservation extends Controller {
         $reservationNonValidees=$model->listeReservationsParEtat(false,$userId);
 
         // Renvoie vers la vue
-
         return view('mes_reservations', [
             'reservationsNonValidees'=>$reservationNonValidees,
             'reservationsValidees'=>$reservationsValidees

@@ -29,11 +29,13 @@ class Moncompte extends Controller
         // Modif du mdp de l'util en session
         $session = session();
         $idUtilConnecte = $session->get('user_id');
+
+        // Update en BD
         $model = new UtilisateurModel();
         $mdpCrypte = password_hash($this->request->getVar('mdp1'), PASSWORD_DEFAULT);
         $model->update($idUtilConnecte, ['mdp'=>$mdpCrypte]);
 
-        // Redirection vers
+        // Affiche vue message avec message souhaité
         echo view('message_client', ['titre'=>'Mot-de-passe modifié','message'=>'Votre mdp à bien été modifié !']);
     }
 
