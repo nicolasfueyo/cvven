@@ -26,7 +26,7 @@
         <br>
         <br>
 
-        <h1 style="color:#4d4d4d;">Modifier un utilisateur</h1>
+        <h1 style="color:#4d4d4d;">Modifier une réservation</h1>
 
         <br>
         <br>

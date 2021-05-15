@@ -23,6 +23,6 @@ class CalendrierVacancesModel extends Model
          $this  ->where('date_debut<=',$dateEntree)
                 ->where('date_fin>=',$dateSortie);
         $res = $this->findAll();
-        return count($res)>0;
+        return count($res)>0;// Renvoie un booléen
     }
 }

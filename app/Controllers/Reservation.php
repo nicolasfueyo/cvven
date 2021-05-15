@@ -58,7 +58,7 @@ class Reservation extends Controller {
             'typeLogementId' => 'required'
         ];
 
-        # Charle les types de logement
+        # Charge les types de logement
         $data = [];
         $typesLogements = [];
         $model = new TypeLogementModel();
@@ -99,12 +99,12 @@ class Reservation extends Controller {
             if( $nbLogementsDispos<$_POST['nbLogements'] ){
                 $this->validator->setError('prix_total','Pas assez de logements displonibles : ' .$nbLogementsDispos);
             }
-
-
-            // Si tout est valide : enreistre la réservation et redirection
         }
 
+        // Reaffiche le formulaire pré-rempli en cas d'erreur de validation de base
         if( count($this->validator->getErrors())>0 ){
+
+            // Repasse à l'étape 1 de la réservation ( au cas où lu auparavant )
             $session = session();
             $session->setFlashdata( 'etape_reservation', '1' );
 
@@ -117,19 +117,24 @@ class Reservation extends Controller {
             $data['reservation']['typePension'] = $_POST['typePension'];
             $data['reservation']['menageInclus'] = isset($_POST['menageInclus']) ? $_POST['menageInclus'] : false;
 
+            # Passe à la vue les erreurs de validation ( en vue de leur affichage )
             $data['validation'] = $this->validator;
 
             echo view('reservation', $data);
             return;
         }
 
+        // Pas d'erreurs de validation de base
+
         # Calcule prix total
         $menageInclus = isset( $_POST['menageInclus'] ) ? true : false;
         $prixTotal=calculerPrixReservation($_POST['typeLogementId'],$_POST['nbLogements'],$dateEntree,$dateSortie,$menageInclus,$_POST['typePension']);
 
-        # Affiche le prix si on a pas encore validé
+        # Affiche le prix si on a pas encore validé ( étape 2 )
         $etapeReservation = $session->getFlashdata('etape_reservation');
         if( $etapeReservation==1 ){
+
+            // Passe à l'étape 2 de la réservation
             $session->setFlashdata('etape_reservation', 2);
             $session->setFlashdata('prix_total', $prixTotal);
 
@@ -152,10 +157,7 @@ class Reservation extends Controller {
 
         # Enregistre réservation
         $reservationModel = new ReservationModel();
-        $reservation = [
-
-        ];
-        $user_id = (session())->get('user_id');
+        $user_id = session()->get('user_id');
 
         // Formate date entree / sortie
         $dt = new \DateTime($_POST['dateEntree']);
@@ -200,6 +202,7 @@ class Reservation extends Controller {
 
     public function index() {
 
+        // Passe à l'étape 1 de la réservation
         $session = session();
         $session->setFlashdata( 'etape_reservation', '1' );
 

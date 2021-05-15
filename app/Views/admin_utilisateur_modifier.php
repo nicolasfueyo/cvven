@@ -61,7 +61,7 @@
                         <label for="InputForConfPassword" class="form-label">Confirmer le mot de passe</label>
                         <input type="password" name="confMdp" class="form-control" id="InputForConfPassword">
                     </div>
-                    <button type="submit" class="btn btn-primary">S'enregistrer</button>
+                    <button type="submit" class="btn btn-primary">Modifier</button>
                 </form>
             </div>
              

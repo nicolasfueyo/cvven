@@ -61,6 +61,8 @@ class AdminReservations extends Controller
             die('errur de validation');
         }
 
+        // Pas d'erreur de validation => On enregistre la réservation
+
         # Calcule prix total
         # Prix résa = (nb logements * ppn du tl*nb nuitées) + (ménage*nb logements) + (nb personnes*prix demi-p * nbnuits)
         $typeLogement = (new TypeLogementModel())->find( $_POST['typeLogement'] );
@@ -141,8 +143,6 @@ class AdminReservations extends Controller
         }
         $data['utilisateurs'] = $utils;
 
-
-
         // Affiche la vue
         echo view('admin_reservation_modifier', $data);
     }
@@ -184,6 +184,8 @@ class AdminReservations extends Controller
             die('Pas assez de logements displonibles : ' .$nbLogementsDispos);
         }
 
+        // Il y a suffisemment de logements dispos pour ce séjour
+
         # Passe l'état de la réservation à VALIDE en BD
         $modelReservation = new ReservationModel();
         $modelReservation->update($reservationId,['etat'=>'VALIDE']);
@@ -201,7 +203,7 @@ class AdminReservations extends Controller
 
     public function liste(){
 
-        # Récupère ttes les réservations non validées
+        # Récupère ttes les réservations non validées ( éventuelle pour le client sélectionné ds filtre )
         $model = new ReservationModel();
         $clientId = null;
         if( isset($_POST['client_id']) and $_POST['client_id']!=false){
@@ -209,11 +211,11 @@ class AdminReservations extends Controller
         }
         $reservationsNonValidees = $model->listeReservationsParEtat(false, $clientId);
 
-        # Récupère ttes les réservations validées
+        # Récupère ttes les réservations validées ( éventuelle pour le client sélectionné ds filtre )
         $model = new ReservationModel();
         $reservationsValidees = $model->listeReservationsParEtat(true, $clientId);
 
-        # Récupère liste de tous les clients
+        # Récupère liste de tous les clients ( permettra d'afficher le filtre 'client' ds la vue )
         $model = new UtilisateurModel();
         $clients = $model->listerClients();
         $clientsPourForm = [];

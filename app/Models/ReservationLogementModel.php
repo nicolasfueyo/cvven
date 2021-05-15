@@ -12,10 +12,13 @@ class ReservationLogementModel extends Model
     protected $allowedFields = ['id','id_typelogement','id_reservation','quantite'];
 
     public function supprimeParReservationId($reservationId){
+
+        // Sléectionne les reservationLogement associés à la réservation
         $tab = $this->select('id')
             ->where('id_reservation=', $reservationId)
             ->findAll();
 
+        // Supprime chacune d'eux ( reservationLogement sélectionnés )
         foreach ($tab as $ligne){
             $this->delete( $ligne['id'] );
         }

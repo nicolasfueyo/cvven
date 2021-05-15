@@ -14,18 +14,21 @@ class AdminUtilisateurs extends Controller
     public function modifierSave($idUtil){
         helper(['form']);
 
+        // Validation de base
         $rules = [
             'prenom' => 'required|min_length[3]|max_length[20]',
             'nom' => 'required|min_length[3]|max_length[20]',
             'email' => 'required|min_length[6]|max_length[50]|valid_email',
         ];
 
+        // Ajoute une règle de validation du mdp si il est spécifié ds le formulaire
         if( $this->request->getVar('mdp')!=null ){
 
             $rules['mdp'] = 'required|min_length[6]|max_length[20]';
             $rules['confMdp'] = 'matches[mdp]';
         }
 
+        // Modif de l'utilisateur db BD si validation OK, puis redirection vers liste utils
         if($this->validate($rules)){
             $model = new UtilisateurModel();
             $data = [
@@ -36,20 +39,24 @@ class AdminUtilisateurs extends Controller
                 'adresse' => $this->request->getVar('adresse'),
                 'email' => $this->request->getVar('email'),
             ];
+
+            // Crypte le MDP si il est spécifié ds le formulaire
             if( $this->request->getVar('mdp')!=null ){
                 $data['mdp'] = password_hash($this->request->getVar('mdp'), PASSWORD_DEFAULT);
             }
 
             $model->save($data);
             return redirect()->to(site_url('AdminUtilisateurs/liste'));
-        }else{
-            $model = new UtilisateurModel();
-            $util = $model->find($idUtil);
-
-            $data['validation'] = $this->validator;
-            $data['util'] = $util;
-            echo view('admin_utilisateur_modifier', $data);
         }
+
+        // Erreur de validation
+
+        $model = new UtilisateurModel();
+        $util = $model->find($idUtil);
+
+        $data['validation'] = $this->validator;
+        $data['util'] = $util;
+        echo view('admin_utilisateur_modifier', $data);
     }
 
     public function modifier($utilId){
@@ -63,6 +70,7 @@ class AdminUtilisateurs extends Controller
     public function save(){
         helper(['form']);
 
+        // Validation des données issues du formulaire
         $rules = [
             'prenom' => 'required|min_length[3]|max_length[20]',
             'nom' => 'required|min_length[3]|max_length[20]',
@@ -71,6 +79,7 @@ class AdminUtilisateurs extends Controller
             'confMdp' => 'matches[mdp]',
         ];
 
+        // Update en BD si valide et redirection vers liste utilis
         if($this->validate($rules)){
             $model = new UtilisateurModel();
             $data = [
@@ -85,10 +94,13 @@ class AdminUtilisateurs extends Controller
 
             $model->save($data);
             return redirect()->to(site_url('AdminUtilisateurs/liste'));
-        }else{
-            $data['validation'] = $this->validator;
-            echo view('admin_utilisateur_ajouter', $data);
         }
+
+        // Pas valide
+
+        // Réaffiche le formulaire avec ses erreurs de validation
+        $data['validation'] = $this->validator;
+        echo view('admin_utilisateur_ajouter', $data);
     }
 
     public function ajouter(){
@@ -116,6 +128,8 @@ class AdminUtilisateurs extends Controller
                 'titre'=>'Erreur',
                 'message'=>"Supprimez d'abord les réservations non validées de cet utilisateur !"]);
         }
+
+        // L'utilisateur ne possède aucune réservation ( validée ou non )
 
         # Supprimer l'utilisateur
         $model = new UtilisateurModel();
