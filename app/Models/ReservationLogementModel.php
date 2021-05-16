@@ -11,6 +11,10 @@ class ReservationLogementModel extends Model
     protected $table = 'reservation_logement';
     protected $allowedFields = ['id','id_typelogement','id_reservation','quantite'];
 
+    /**
+     * Supprime de la table les lignes relatives à la réservation en paramètre.
+     * @param $reservationId
+     */
     public function supprimeParReservationId($reservationId){
 
         // Sléectionne les reservationLogement associés à la réservation
