@@ -16,8 +16,6 @@ header .row{
     background-repeat: no-repeat;
     background-attachment: fixed;
     color:rgb(219, 219, 219);
-    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 91%);
-
 }
 
 header .formBlack{
