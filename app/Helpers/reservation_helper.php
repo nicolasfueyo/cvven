@@ -2,6 +2,16 @@
 
 use App\Models\TypeLogementModel;
 
+/**
+ * Renvoie le prix total d'une réservation en fonction des paramètres donnés.
+ * @param $typeLogementId
+ * @param $nbLogements
+ * @param $dateDebut
+ * @param $dateFin
+ * @param $menageInclus
+ * @param $typeSejour
+ * @return float|int
+ */
 function calculerPrixReservation($typeLogementId, $nbLogements, $dateDebut, $dateFin, $menageInclus, $typeSejour)
 {
 
@@ -22,6 +32,12 @@ function calculerPrixReservation($typeLogementId, $nbLogements, $dateDebut, $dat
     return $prixTotal;
 }
 
+/**
+ * Renvoie le nombre de jours entre 2 dates fournies au format Y-m-d.
+ * @param $strDateDebut
+ * @param $strDateFin
+ * @return string
+ */
 function calculeNbJoursEntreDates($strDateDebut, $strDateFin)
 {
     $dtDebut = \DateTime::createFromFormat('Y-m-d', $strDateDebut);
